@@ -1,0 +1,63 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.fvm/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+build/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/gestao-obra-mobile-front/doc/api/
+**.last_build_id
+**.dart_tool/
+**.flutter-plugins
+**.flutter-plugins-dependencies
+**.packages
+**.lock
+**.pub-cache/
+**.pub/
+**/build/
+**.vscode/settings.json
+.vscode/*
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+gestao-obra-mobile-front/android/app/debug
+gestao-obra-mobile-front/android/app/profile
+gestao-obra-mobile-front/android/app/release
+
+# Ios related
+gestao-obra-mobile-front/ios/Podfile.lock
+build/unit_test_assets/shaders/ink_sparkle.frag
+build/unit_test_assets/NOTICES.Z
+build/unit_test_assets/fonts/MaterialIcons-Regular.otf
+build/unit_test_assets/FontManifest.json
+build/unit_test_assets/assets/splash/splash.png
+build/unit_test_assets/assets/logos/launcher_icon.jpg
+build/unit_test_assets/assets/animations/under_construction.json
+build/unit_test_assets/assets/animations/not_found.json
+build/unit_test_assets/AssetManifest.json
+build/unit_test_assets/AssetManifest.bin
+build/test_cache/build/c075001b96339384a97db4862b8ab8db.cache.dill.track.dill
