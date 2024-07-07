@@ -1,32 +1,44 @@
 ROOT_DIR = $(realpath .)
 
-pod_install:
-	@cd ios && rm -rf Podfile.lock && pod install --repo-update --clean-install
+RELEASE_PARAMS = --release --obfuscate --split-debug-info=/Users/joao/Desktop/dev/projects/personal/flutter_structure/obfuscate
 
-build_runner:
-	@dart run build_runner build --delete-conflicting-outputs
-
-packages_upgrade:
-	@flutter packages upgrade
-
-remove_lock:
-	@find . -name "*pubspec.lock" -type f -delete
+install: clean clean_get build_runner create_splash
 
 get:
 	@flutter pub get
 
-clean_get: clean_all get
+pod_install:
+	@cd ios && rm -rf Podfile.lock && pod install --repo-update --clean-install
 
-clean_all: remove_lock clean
+clean_get: remove_lock get
 
-clean: 
+clean: remove_lock
 	@flutter clean
 
-upgrade: remove_lock && flutter pub upgrade
+remove_lock:
+	@find . -name "*pubspec.lock" -type f -delete; \
 
-install: clean_get build_runner
+build_runner:
+	@find . -name "*.g.dart" -type f -delete && \
+	dart run build_runner build --delete-conflicting-outputs
 
-translation: flutter gen-l10n
+upgrade: remove_lock
+	@flutter pub upgrade && \
+
+auto_fix: format
+	@dart fix --apply
+
+format:
+	@dart format --fix .
+
+packages_upgrade:
+	@flutter packages upgrade
+
+create_splash:
+	@dart run flutter_native_splash:create
+
+create_icon: install
+	@dart pub run flutter_launcher_icons
 
 git_clean:
 	@echo "Cleaning remote..."
@@ -34,7 +46,18 @@ git_clean:
 	@echo "Cleaning local..."
 	@git fetch -p && for branch in $(git branch -vv | grep ': gone]' | awk '{print $1}'); do git branch -D $branch; done
 
-release: flutter build apk --release
+build_appbundle:
+	@flutter build appbundle $(RELEASE_PARAMS)
+
+build_ipa:
+	@flutter build ipa $(RELEASE_PARAMS)
+
+build_apk_dry: create_splash
+	@flutter build apk $(RELEASE_PARAMS)
+
+build_version: install create_splash build_appbundle build_ipa
+
+build_version_dry: build_appbundle build_ipa
 
 create_feature:
 	@cd lib/src/features && \
