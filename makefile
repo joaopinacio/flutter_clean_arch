@@ -1,6 +1,8 @@
 ROOT_DIR = $(realpath .)
 
-RELEASE_PARAMS = --release --obfuscate --split-debug-info=/Users/joao/Desktop/dev/projects/personal/flutter_structure/obfuscate
+RELEASE_PARAMS = --release --obfuscate --split-debug-info=$(ROOT_DIR)/obfuscate --dart-define-from-file=prod.env
+
+DEV_PARAMS = --release --obfuscate --split-debug-info=$(ROOT_DIR)/obfuscate --dart-define-from-file=dev.env
 
 install: clean clean_get build_runner create_splash
 
@@ -8,7 +10,7 @@ get:
 	@flutter pub get
 
 pod_install:
-	@cd ios && rm -rf Podfile.lock && pod install --repo-update --clean-install
+	@cd ios && rm -rf Podfile.lock && pod deintegrate && pod install --repo-update --clean-install
 
 clean_get: remove_lock get
 
@@ -59,27 +61,6 @@ build_version: install create_splash build_appbundle build_ipa
 
 build_version_dry: build_appbundle build_ipa
 
-create_feature:
-	@cd lib/src/features && \
-	mkdir -p $(name) && \
-	cd $(name) && \
-	mkdir -p data && \
-	cd data && \
-	mkdir -p data_sources && \
-	mkdir -p models && \
-	mkdir -p repositories && \
-	cd .. && \
-	mkdir -p domain && \
-	cd domain && \
-	mkdir -p entities && \
-	mkdir -p enums && \
-	mkdir -p exceptions && \
-	mkdir -p repositories && \
-	mkdir -p use_cases && \
-	cd .. && \
-	mkdir -p presentation && \
-	cd presentation && \
-	mkdir -p module && \
-	mkdir -p pages && \
-	mkdir -p controller && \
-	mkdir -p widgets
+# Usage: make feature name={NOME_DA_FEATURE}
+feature:
+	@lego create $(name) pop
